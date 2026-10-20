@@ -1,5 +1,7 @@
+# Define a validated reusable prompt with named input variables.
 from langchain_core.prompts import PromptTemplate
 
+# PromptTemplate keeps instructions separate from values supplied later.
 template = PromptTemplate(
     template=""""
 Please summarize the research paper titled "{paper_input}" with the following specifications:
@@ -17,4 +19,5 @@ Ensure the summary is clear, accurate, and aligned with the provided style and l
     validate_template=True
 )
 
+# Serialize the template so another example can load and invoke it.
 template.save('template.json')

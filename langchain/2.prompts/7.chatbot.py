@@ -1,3 +1,4 @@
+# Streamlit provides the chat UI while LangChain manages message history.
 from dotenv import load_dotenv
 import streamlit as st
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
@@ -5,6 +6,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 load_dotenv()
 
+# Configure the page and basic chat presentation.
 st.set_page_config(page_title="Gemini Chatbot", page_icon="💬")
 st.title("Gemini Chatbot")
 st.caption("Ask questions and continue the conversation with Gemini.")
@@ -29,8 +31,10 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# Use one chat model for each submitted conversation.
 model = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 
+# Keep typed LangChain messages in session state across reruns.
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = [
         SystemMessage(content="You are a helpful AI assistant.")
@@ -50,6 +54,7 @@ if user_input := st.chat_input("Type your message..."):
 
     with st.chat_message("assistant"):
         try:
+            # Send the full conversation so the model has context.
             with st.spinner("Thinking..."):
                 result = model.invoke(st.session_state.chat_history)
             response = str(result.content)

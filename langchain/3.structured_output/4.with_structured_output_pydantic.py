@@ -1,3 +1,4 @@
+# Pydantic supplies validation in addition to structured model output.
 from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 from typing import TypedDict, Annotated, Optional, Literal
@@ -7,6 +8,7 @@ load_dotenv()
 
 model = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 
+# Field metadata describes each value expected from the model.
 class Review(BaseModel):
 
     key_themes: list[str] = Field(description="Write down all the key themes discussed in the review in a list")
@@ -16,8 +18,10 @@ class Review(BaseModel):
     cons: Optional[list[str]] = Field(default=None, description="Write down all the cons inside a list")
     name: Optional[str] = Field(default=None, description="Write the name of the reviewer")
     
+# The bound schema validates the model response as a Review instance.
 strurctured_model = model.with_structured_output(Review)
 
+# Extract review fields directly from the natural-language input.
 response = strurctured_model.invoke(
     """
     I recently upgraded to the Samsung Galaxy S24 Ultra, and I must say, it’s an absolute powerhouse! The Snapdragon 8 Gen 3 processor makes everything lightning fast—whether I’m gaming, multitasking, or editing photos. The 5000mAh battery easily lasts a full day even with heavy use, and the 45W fast charging is a lifesaver.

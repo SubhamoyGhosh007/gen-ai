@@ -1,3 +1,4 @@
+# Compose prompts, models, and parsers into one runnable sequence.
 from langchain_ollama import ChatOllama
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
@@ -6,6 +7,7 @@ import os
 
 load_dotenv()
 
+# The same model performs both report generation and summarization.
 model = ChatOllama(
     model="nemotron-3-nano:30b",
     base_url="https://ollama.com",
@@ -29,6 +31,7 @@ template2 = PromptTemplate(
     input_variables=['text']
 )
 
+# The pipe operator connects each Runnable's output to the next input.
 parser = StrOutputParser()
 
 chain = template1 | model | parser | template2 | model | parser

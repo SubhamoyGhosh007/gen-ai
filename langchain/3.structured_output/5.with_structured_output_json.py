@@ -1,3 +1,4 @@
+# A JSON Schema can describe structured output without a Python model class.
 from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 from typing import TypedDict, Annotated, Optional, Literal
@@ -7,6 +8,7 @@ load_dotenv()
 
 model = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 
+# Required fields, enums, and descriptions constrain generated JSON.
 json_schema = {
   "title": "Review",
   "type": "object",
@@ -49,8 +51,10 @@ json_schema = {
   "required": ["key_themes", "summary", "sentiment"]
 }
 
+# Bind the JSON Schema so the model returns a structured dictionary.
 strurctured_model = model.with_structured_output(json_schema)
 
+# Parse the review into the declared JSON shape.
 response = strurctured_model.invoke(
     """
     I recently upgraded to the Samsung Galaxy S24 Ultra, and I must say, it’s an absolute powerhouse! The Snapdragon 8 Gen 3 processor makes everything lightning fast—whether I’m gaming, multitasking, or editing photos. The 5000mAh battery easily lasts a full day even with heavy use, and the 45W fast charging is a lifesaver.

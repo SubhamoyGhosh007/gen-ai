@@ -1,6 +1,8 @@
+# Pydantic models validate, coerce, and serialize structured data.
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 
+# Field constraints and defaults become part of the runtime schema.
 class Student(BaseModel):
     name: str = 'Subhamoy'
     age: Optional[int] = None
@@ -9,12 +11,14 @@ class Student(BaseModel):
         ge=0, le=10, default=5, description='A decimal value representing the cgpa of the student'
     )
     
+# Pydantic validates input and converts compatible values such as age.
 new_student = {
     'age':'32', 'email':'abc@gmail.com'
 }
 
 student = Student(**new_student)
 
+# Models can be converted to dictionaries or JSON for downstream use.
 student_dict = dict(student)
 print(student_dict['age'])
 

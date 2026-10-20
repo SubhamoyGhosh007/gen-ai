@@ -1,3 +1,4 @@
+# RunnableParallel evaluates independent branches from the same input.
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_ollama import ChatOllama
 from dotenv import load_dotenv
@@ -8,6 +9,7 @@ import os
 
 load_dotenv()
 
+# Use separate models for note generation and quiz generation.
 model1 = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 model2 = ChatOllama(
     model="nemotron-3-nano:30b",
@@ -20,6 +22,7 @@ model2 = ChatOllama(
     temperature=0
 )
 
+# Each prompt describes one independent branch of the workflow.
 prompt1 = PromptTemplate(
     template='Generate short and simple notes from the following text \n {text}',
     input_variables=['text']
@@ -35,6 +38,7 @@ prompt3 = PromptTemplate(
     input_variables=['notes', 'quiz']
 )
 
+# The parallel output is merged into one final document.
 parser = StrOutputParser()
 
 parallel_chain = RunnableParallel({
