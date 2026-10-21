@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import random
 
+# A Runnable accepts input and returns output through a common invoke method.
 class Runnable(ABC):
     
     @abstractmethod
@@ -21,6 +22,7 @@ class FakeLLM(Runnable):
         return {'response': random.choice(response_list)}
     
     def invoke(self, prompt):
+            # invoke is the standard entry point used by a runnable chain.
             response_list = [
                 'Delhi is the capital of India',
                 'IPL is a cricket league',
@@ -38,6 +40,7 @@ class FakePromptTemplate(Runnable):
         return self.template.format(**input_dict)
     
     def invoke(self, input_dict):
+        # This runnable converts structured input into a formatted prompt.
         return self.template.format(**input_dict)
         
 class FakeStrOutputParser(Runnable):
@@ -45,6 +48,7 @@ class FakeStrOutputParser(Runnable):
         pass
      
     def invoke(self, input_data):
+        # Extract the text value from the fake model's response dictionary.
         return input_data['response']
     
 class RunnableConnector(Runnable):
@@ -52,6 +56,7 @@ class RunnableConnector(Runnable):
         self.runnable_list = runnable_list
         
     def invoke(self, input_data):
+        # Pass each stage's output as the next stage's input.
         for runnable in self.runnable_list:
             input_data = runnable.invoke(input_data)
         
@@ -68,6 +73,7 @@ parser = FakeStrOutputParser()
 # print(llm.invoke(template.invoke({'length':'short', 'topic': 'india'}))['response'])
 
 chain = RunnableConnector(runnable_list=[template, llm, parser])
+# The result flows through template -> model -> parser.
 response = chain.invoke({'length':'long', 'topic':'india'})
 
 print(response)
@@ -90,7 +96,7 @@ chain2 = RunnableConnector([template2, llm1, parser1])
 
 final_chain = RunnableConnector([chain1, chain2])
 
+# Nested connectors show that complete chains can be used as runnable stages.
 final_response = final_chain.invoke({'topic':'cricket'})
 print(final_response)
-
 

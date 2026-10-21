@@ -1,11 +1,11 @@
 # LangChain
-langchain
-langchain-core
+langchain>=1.0.0
+langchain-core>=1.0.0
 langchain-classic
 langchain-ollama
 langchain-openai
 langchain-anthropic
-langchain-google-genai
+langchain-google-genai>=4.0.0
 
 # Model providers
 openai
@@ -19,7 +19,7 @@ torch
 accelerate
 
 # Configuration and validation
-python-dotenv
+python-dotenv>=1.0.0
 pydantic
 
 # Applications and utilities

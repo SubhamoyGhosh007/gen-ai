@@ -1,10 +1,12 @@
 import random
 
+# This small example mimics a traditional chain without using LangChain.
 class FakeLLM:
     def __init__(self):
         print('LLM created')
     
     def predict(self, prompt):
+        # A real LLM would use the prompt; this fake model returns a sample response.
         response_list = [
             'Delhi is the capital of India',
             'IPL is a cricket league',
@@ -20,6 +22,7 @@ class FakePromptTemplate:
         self.input_variables = input_variables
         
     def format(self, input_dict):
+        # Expand named placeholders using values from the input dictionary.
         return self.template.format(**input_dict)
     
 
@@ -29,6 +32,7 @@ class FakeLLMChain:
         self.template = template
     
     def run(self, input_dict):
+        # The chain connects prompt formatting to model execution.
         prompt = self.template.format(input_dict)
         result = self.llm.predict(prompt)
         
@@ -46,4 +50,5 @@ chain = FakeLLMChain(llm, template)
 response = chain.run(
     {'length':'short', 'topic': 'india'}
 )
+# The chain returns the parsed text rather than the model's response dictionary.
 print(response)

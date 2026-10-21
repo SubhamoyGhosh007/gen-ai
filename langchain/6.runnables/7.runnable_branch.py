@@ -16,12 +16,16 @@ prompt2 = PromptTemplate(
     input_variables=['text']
 )
 
-model = ChatGoogleGenerativeAI(model= 'gemini-3.6-flash')
+model = ChatGoogleGenerativeAI(model= 'gemini-3.8-flash')
 
 parser = StrOutputParser()
 
+# Generate a report before deciding which branch should process it.
 report_gen_chain = prompt1 | model | parser
 
+# If the report is long, summarize it; otherwise return the report unchanged.
+# RunnableBranch evaluates conditions in order and uses the final default branch
+# when no condition matches.
 branch_chain = RunnableBranch(
     (lambda x: len(x.split())>300, prompt2 | model | parser),
     RunnablePassthrough()
@@ -29,4 +33,5 @@ branch_chain = RunnableBranch(
 
 final_chain = RunnableSequence(report_gen_chain, branch_chain)
 
+# The final output depends on the report length at runtime.
 print(final_chain.invoke({'topic':'Russia vs Ukraine'}))

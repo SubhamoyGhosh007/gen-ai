@@ -6,6 +6,7 @@ from langchain_core.runnables import RunnableLambda, RunnableSequence
 
 load_dotenv()
 
+# Each prompt declares the input keys it expects.
 prompt1 = PromptTemplate(
     template='Write a joke about {topic}',
     input_variables=['topic']
@@ -13,6 +14,7 @@ prompt1 = PromptTemplate(
 
 model = ChatGoogleGenerativeAI(model= 'gemini-2.5-flash')
 
+# Convert the model's AIMessage response into plain text.
 parser = StrOutputParser()
 
 prompt2 = PromptTemplate(
@@ -21,9 +23,11 @@ prompt2 = PromptTemplate(
 )
 
 chain = RunnableSequence(
+    # RunnableSequence executes these stages from left to right.
     prompt1,
     model,
     parser,
+    # Adapt the parser's string output to prompt2's expected dictionary input.
     RunnableLambda(lambda text: {'text': text}),
     prompt2,
     model,
@@ -32,7 +36,7 @@ chain = RunnableSequence(
 
 print(chain.invoke({'topic':'AI'}))
 
-# For understanding purpose only
+# These shorter chains demonstrate the output type after each stage.
 c0 = prompt1 | model 
 c1 = prompt1 | model | parser
 c2 = prompt1 | model | parser | RunnableLambda(lambda text : {'text': text})
