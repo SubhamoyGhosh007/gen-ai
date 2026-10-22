@@ -15,6 +15,7 @@ LCEL chains.
 - Typed dictionaries, Pydantic models, and JSON structured output
 - String, structured, Pydantic, and JSON output parsers
 - Sequential, parallel, and conditional runnable chains
+- Document loading, text splitting, and Chroma vector stores
 - Small Streamlit prompt and chatbot examples
 
 ## Project structure
@@ -31,6 +32,10 @@ langchain/
 ├── 3.structured_output/
 ├── 4.output_parser/
 ├── 5.chains/
+├── 7.document_loader/
+├── 8.text_splitters/
+├── 9.vector_stores/
+│   └── chroma/
 └── requirements.txt
 ```
 
@@ -71,6 +76,7 @@ running:
 
 ```dotenv
 GEMINI_API_KEY=your_gemini_api_key
+GOOGLE_API_KEY=your_google_ai_api_key
 HF_TOKEN=your_huggingface_token
 OLLAMA_API_KEY=your_ollama_api_key
 ```
@@ -99,6 +105,42 @@ streamlit run 2.prompts/7.chatbot.py
 Some examples download models on their first run, require provider-specific
 credentials, or expect a local Ollama model. Read the selected file before
 running it and adjust the model name or provider configuration as needed.
+
+## Chroma vector store examples
+
+The examples in
+[`langchain/9.vector_stores/chroma/`](./langchain/9.vector_stores/chroma/)
+demonstrate a complete Chroma workflow:
+
+1. [`1.chroma_db_create.py`](./langchain/9.vector_stores/chroma/1.chroma_db_create.py)
+   creates `Document` objects, generates Google embeddings, and stores them in
+   a persistent Chroma collection.
+2. [`2.chroma_db.get.py`](./langchain/9.vector_stores/chroma/2.chroma_db.get.py)
+   reads documents and performs similarity searches, including metadata
+   filtering.
+3. [`3.chroma_db_update.py`](./langchain/9.vector_stores/chroma/3.chroma_db_update.py)
+   replaces a document by its Chroma document ID.
+4. [`4.chroma_db_delete.py`](./langchain/9.vector_stores/chroma/4.chroma_db_delete.py)
+   deletes a document by ID and displays the remaining collection contents.
+
+Install the dependencies from the `langchain` directory, create a `.env`
+file with a Google API key, and run the examples in order:
+
+```bash
+cd langchain
+python -m pip install -r requirements.txt
+python 9.vector_stores/chroma/1.chroma_db_create.py
+python 9.vector_stores/chroma/2.chroma_db.get.py
+python 9.vector_stores/chroma/3.chroma_db_update.py
+python 9.vector_stores/chroma/4.chroma_db_delete.py
+```
+
+The examples persist data in the `my_chorma_db/` directory. The directory is
+created relative to the current working directory, so run the commands from
+`langchain/`. The create script prints generated document IDs; the update and
+delete scripts use one of those IDs. The scripts use the standalone
+`langchain-chroma` integration and the `gemini-embedding-2-preview` embedding
+model, so a valid Google API key and network access are required.
 
 ## Notes
 
