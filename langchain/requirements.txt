@@ -3,6 +3,9 @@ langchain>=1.0.0
 langchain-text-splitters>=1.0.0
 langchain-experimental>=0.4.0
 langchain-community
+# Chroma vector store and its LangChain integration.
+langchain-chroma>=1.0.0
+chromadb>=1.0.0
 langchain-core>=1.0.0
 pypdf
 langchain-classic
