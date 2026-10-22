@@ -36,6 +36,8 @@ langchain/
 ├── 8.text_splitters/
 ├── 9.vector_stores/
 │   └── chroma/
+├── 10.retrievers/
+├── 11.other_retrievers/
 └── requirements.txt
 ```
 
@@ -141,6 +143,47 @@ created relative to the current working directory, so run the commands from
 delete scripts use one of those IDs. The scripts use the standalone
 `langchain-chroma` integration and the `gemini-embedding-2-preview` embedding
 model, so a valid Google API key and network access are required.
+
+## Retrievers backed by external sources
+
+The examples in
+[`langchain/11.other_retrievers/`](./langchain/11.other_retrievers/) retrieve
+documents directly from public research databases instead of searching a
+locally built vector store:
+
+- [`1.arxiv_retriever.py`](./langchain/11.other_retrievers/1.arxiv_retriever.py)
+  searches arXiv and returns research-paper summaries.
+- [`2.pubmed_retriever.py`](./langchain/11.other_retrievers/2.pubmed_retriever.py)
+  searches PubMed and returns biomedical article summaries.
+
+Run them from the `langchain/` directory:
+
+```bash
+python 11.other_retrievers/1.arxiv_retriever.py
+python 11.other_retrievers/2.pubmed_retriever.py
+```
+
+These examples need network access and may be affected by the public APIs'
+availability or rate limits. They do not require a local vector database or
+embedding model.
+
+## Retriever examples
+
+The examples in [`langchain/10.retrievers/`](./langchain/10.retrievers/)
+demonstrate different retrieval strategies:
+
+- `1.wikipedia_retriever.py` searches the Wikipedia API directly.
+- `2.vector_store_retriver.py` exposes a FAISS vector store as a retriever.
+- `3.mmr.py` uses Maximal Marginal Relevance to balance relevance and
+  diversity.
+- `4.mqr.py` uses an LLM to generate multiple query variations before
+  retrieving documents.
+- `5.ccr.py` compresses retrieved documents to keep only query-relevant text.
+
+The vector-store-based examples use Google embeddings and require
+`GOOGLE_API_KEY`. The multi-query and contextual-compression examples also
+call Gemini chat models, while the Wikipedia example requires network access
+and can be affected by Wikimedia rate limits.
 
 ## Notes
 

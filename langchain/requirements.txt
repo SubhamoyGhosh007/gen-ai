@@ -2,17 +2,23 @@
 langchain>=1.0.0
 langchain-text-splitters>=1.0.0
 langchain-experimental>=0.4.0
+# Base retriever integrations and legacy-compatible retriever utilities.
 langchain-community
+langchain-classic>=1.0.0
+# FAISS is used by the local vector-store retriever examples.
+faiss-cpu
 # Chroma vector store and its LangChain integration.
 langchain-chroma>=1.0.0
 chromadb>=1.0.0
 langchain-core>=1.0.0
 pypdf
-langchain-classic
 langchain-ollama
 langchain-openai
 langchain-anthropic
 langchain-google-genai>=4.0.0
+wikipedia>=1.4.0
+arxiv>=2.2.0,<3.0.0
+xmltodict>=0.13.0
 
 # Model providers
 openai
