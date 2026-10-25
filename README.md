@@ -102,7 +102,51 @@ Run the Streamlit examples with:
 ```bash
 streamlit run 2.prompts/1.prompt_ui.py
 streamlit run 2.prompts/7.chatbot.py
+streamlit run 11.youtube_chat_app/python_code/youtube-chat-app-streamlit.py
 ```
+
+The chatbot example keeps `HumanMessage` and `AIMessage` instances in
+Streamlit session state. Each request renders a `ChatPromptTemplate` with a
+`MessagesPlaceholder`, so the complete conversation is sent to Gemini and
+remains visible across Streamlit reruns. Use **New chat** in the sidebar to
+clear the current conversation.
+
+The YouTube transcript application uses the same pattern for RAG conversations:
+run it with `streamlit run
+11.youtube_chat_app/python_code/youtube-chat-app-streamlit.py`, enter a
+YouTube URL, and choose an embedding provider. It preserves
+`SystemMessage`/`HumanMessage`/`AIMessage` history in session state and uses a
+`ChatPromptTemplate` with `MessagesPlaceholder` for follow-up questions. The
+application requires `GROQ_API_KEY`; Gemini embeddings additionally require
+`GOOGLE_API_KEY` or `GEMINI_API_KEY`.
+
+The Streamlit UI also includes a browser-local IndexedDB archive. Provider keys,
+conversation titles, and message history are stored in the current browser
+profile, not in the repository. The sidebar contains the latest conversations,
+a key panel, and a native collapse control. Conversation rendering starts with
+the latest ten messages; use **Load 10 earlier messages** to page backward
+without rendering the entire archive at once.
+
+Transcript answering uses a safe full-context shortcut for transcripts up to
+`FULL_CONTEXT_LIMIT` characters (24,000 by default), then falls back to the
+retrieval pipeline for longer videos. The threshold can be changed in `.env`,
+but it should stay within the input-token limit of the configured Groq
+service.
+
+The YouTube chat UI lets you choose the text-generation provider independently
+from the embedding provider: Groq uses `GROQ_API_KEY`, while Gemini uses
+`GEMINI_API_KEY` or `GOOGLE_API_KEY`. Conversations and provider keys are
+hydrated from the browser's IndexedDB, while provider keys are kept only in
+Streamlit session memory for this BYOK deployment. Keys are never written to
+IndexedDB, and the app waits for the initial IndexedDB read before creating a
+new conversation.
+
+Text generation also supports a local Hugging Face SLM. It defaults to
+`Qwen/Qwen2.5-3B-Instruct` and uses the local Transformers pipeline. The
+planner and evidence stages use schema-directed JSON prompting and Pydantic
+validation for structured output; native provider tool calling is used only
+when the selected hosted model supports it. Override the local model with
+`HF_GENERATION_MODEL_ID` in `.env`.
 
 Some examples download models on their first run, require provider-specific
 credentials, or expect a local Ollama model. Read the selected file before

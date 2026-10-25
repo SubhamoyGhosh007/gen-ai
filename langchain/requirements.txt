@@ -39,6 +39,7 @@ pydantic
 
 # Applications and utilities
 streamlit
+streamlit-js-eval
 
 numpy
 scikit-learn
