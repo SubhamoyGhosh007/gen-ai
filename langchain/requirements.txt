@@ -2,9 +2,12 @@
 langchain>=1.0.0
 langchain-text-splitters>=1.0.0
 langchain-experimental>=0.4.0
-# Base retriever integrations and legacy-compatible retriever utilities.
+# Base integrations and legacy-compatible agent/retriever utilities.
 langchain-community
 langchain-classic>=1.0.0
+# Agent examples use DuckDuckGoSearchRun and requests-based custom tools.
+langchain-openrouter
+ddgs
 PyGithub>=2.1.0
 requests>=2.31.0
 youtube-transcript-api>=1.2.4
@@ -20,7 +23,6 @@ langchain-openai
 langchain-anthropic
 langchain-google-genai>=4.0.0
 langchain-groq>=0.3.0
-langchain-openrouter
 wikipedia>=1.4.0
 arxiv>=2.2.0,<3.0.0
 xmltodict>=0.13.0
@@ -47,6 +49,5 @@ streamlit-js-eval
 numpy
 scikit-learn
 
-duckduckgo-search 
-ddgs
+duckduckgo-search
 langchain-duckduckgo

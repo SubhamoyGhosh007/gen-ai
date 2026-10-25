@@ -17,6 +17,7 @@ LCEL chains.
 - Sequential, parallel, and conditional runnable chains
 - Document loading, text splitting, and Chroma vector stores
 - Built-in tools, custom tools, toolkits, tool binding, and tool-calling agents
+- ReAct agents, custom tools, and legacy/current AgentExecutor patterns
 - Small Streamlit prompt and chatbot examples
 
 ## Project structure
@@ -41,6 +42,7 @@ langchain/
 ├── 10.retrievers/
 ├── 11.youtube_chat_app/
 ├── 12.tool_Calling/
+├── 13.agents/
 └── requirements.txt
 ```
 
@@ -87,6 +89,7 @@ OLLAMA_API_KEY=your_ollama_api_key
 GROQ_API_KEY=your_groq_api_key
 OPENROUTER_API_KEY=your_openrouter_api_key
 GITHUB_PERSONAL_ACCESS_TOKEN=your_github_token
+WEATHERSTACK_API_KEY=your_weatherstack_api_key
 ```
 
 Never commit `.env` files or API keys. If a credential has been exposed,
@@ -176,6 +179,32 @@ GitHub toolkit uses `GITHUB_PERSONAL_ACCESS_TOKEN`, tool binding uses
 `GROQ_API_KEY`, and the agent example uses `OPENROUTER_API_KEY`. Review the
 selected file before running it, because tool calls can access external
 services or execute commands in the current environment.
+
+## Agent examples
+
+The examples in
+[`langchain/13.agents/`](./langchain/13.agents/) demonstrate a ReAct agent
+using web search, a custom weather tool, and a multiplication tool:
+
+- [`1.langchain-agent.py`](./langchain/13.agents/1.langchain-agent.py) uses
+  the current `langchain.agents` import path while retaining the
+  `AgentExecutor` invocation pattern.
+- [`2.lanchain-agent-old.py`](./langchain/13.agents/2.lanchain-agent-old.py)
+  uses `langchain_classic.agents` for older tutorials that still depend on
+  the classic API.
+
+Run either example from the `langchain/` directory:
+
+```bash
+python 13.agents/1.langchain-agent.py
+python 13.agents/2.lanchain-agent-old.py
+```
+
+These examples require `OPENROUTER_API_KEY` and `WEATHERSTACK_API_KEY` in
+`langchain/.env`. The weather tool calls Weatherstack over `requests`; no
+separate Weatherstack Python package is needed. The prompts are defined
+locally rather than loaded with `hub.pull`, because current LangSmith
+versions block public prompt deserialization by default.
 
 ## Chroma vector store examples
 
