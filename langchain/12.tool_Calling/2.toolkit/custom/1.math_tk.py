@@ -1,10 +1,13 @@
 import warnings
+
+# Suppress warnings so the toolkit members and their results stand out.
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
 from langchain_core.tools import tool
 
+# Each decorated function becomes a tool that can be included in the toolkit.
 @tool
 def add(a: int, b: int) -> int:
     """Add two numbers"""
@@ -17,6 +20,7 @@ def multiply(a: int, b: int) -> int:
 
 class MathToolkit:
     def get_tools(self):
+        # Returning a list keeps the toolkit compatible with agent APIs.
         return [add, multiply]
 
 toolkit = MathToolkit()

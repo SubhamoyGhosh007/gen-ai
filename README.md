@@ -16,6 +16,7 @@ LCEL chains.
 - String, structured, Pydantic, and JSON output parsers
 - Sequential, parallel, and conditional runnable chains
 - Document loading, text splitting, and Chroma vector stores
+- Built-in tools, custom tools, toolkits, tool binding, and tool-calling agents
 - Small Streamlit prompt and chatbot examples
 
 ## Project structure
@@ -32,12 +33,14 @@ langchain/
 ├── 3.structured_output/
 ├── 4.output_parser/
 ├── 5.chains/
+├── 6.runnables/
 ├── 7.document_loader/
 ├── 8.text_splitters/
 ├── 9.vector_stores/
 │   └── chroma/
 ├── 10.retrievers/
-├── 11.other_retrievers/
+├── 11.youtube_chat_app/
+├── 12.tool_Calling/
 └── requirements.txt
 ```
 
@@ -81,6 +84,9 @@ GEMINI_API_KEY=your_gemini_api_key
 GOOGLE_API_KEY=your_google_ai_api_key
 HF_TOKEN=your_huggingface_token
 OLLAMA_API_KEY=your_ollama_api_key
+GROQ_API_KEY=your_groq_api_key
+OPENROUTER_API_KEY=your_openrouter_api_key
+GITHUB_PERSONAL_ACCESS_TOKEN=your_github_token
 ```
 
 Never commit `.env` files or API keys. If a credential has been exposed,
@@ -151,6 +157,25 @@ when the selected hosted model supports it. Override the local model with
 Some examples download models on their first run, require provider-specific
 credentials, or expect a local Ollama model. Read the selected file before
 running it and adjust the model name or provider configuration as needed.
+
+## Tool-calling examples
+
+The examples in
+[`langchain/12.tool_Calling/`](./langchain/12.tool_Calling/) introduce tool
+calling in increasing levels of abstraction:
+
+1. `1.basic_tc/` demonstrates built-in tools and three ways to define a custom
+   tool: the `@tool` decorator, `StructuredTool`, and `BaseTool`.
+2. `2.toolkit/` shows how related tools can be grouped into a custom toolkit or
+   loaded from the GitHub integration.
+3. `3.toolbinding/` demonstrates binding tools to a chat model and creating an
+   agent that selects and sequences tools.
+
+The search and shell examples may require additional local configuration. The
+GitHub toolkit uses `GITHUB_PERSONAL_ACCESS_TOKEN`, tool binding uses
+`GROQ_API_KEY`, and the agent example uses `OPENROUTER_API_KEY`. Review the
+selected file before running it, because tool calls can access external
+services or execute commands in the current environment.
 
 ## Chroma vector store examples
 

@@ -1,4 +1,6 @@
 import warnings
+
+# Suppress warnings so the BaseTool implementation remains the focus.
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -7,7 +9,7 @@ from langchain_core.tools import BaseTool
 from typing import Type
 from pydantic import BaseModel, Field
 
-# arg schema using pydantic
+# Pydantic defines the arguments accepted by the BaseTool implementation.
 class MultiplyInput(BaseModel):
     a: int = Field(required=True, description="The first number to add")
     b: int = Field(required=True, description="The second number to add")
@@ -18,6 +20,7 @@ class MultiplyTool(BaseTool):
 
     args_schema: Type[BaseModel] = MultiplyInput
 
+    # BaseTool calls _run when the tool is invoked synchronously.
     def _run(self, a: int, b: int) -> int:
         return a * b
 

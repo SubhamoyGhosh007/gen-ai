@@ -5,6 +5,8 @@ langchain-experimental>=0.4.0
 # Base retriever integrations and legacy-compatible retriever utilities.
 langchain-community
 langchain-classic>=1.0.0
+PyGithub>=2.1.0
+requests>=2.31.0
 youtube-transcript-api>=1.2.4
 # FAISS is used by the local vector-store retriever examples.
 faiss-cpu
@@ -47,5 +49,4 @@ scikit-learn
 
 duckduckgo-search 
 ddgs
-langchain_experimental
 langchain-duckduckgo
