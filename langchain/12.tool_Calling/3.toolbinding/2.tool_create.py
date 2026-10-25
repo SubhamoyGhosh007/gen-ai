@@ -41,7 +41,7 @@ def convert(
 print("=== 1. TOOL SCHEMA INSPECTION ===")
 print("convert schema visible to the LLM:")
 # Notice conversion_rate is stripped from the tool_call_schema!
-print(json.dumps(convert.tool_call_schema.schema(), indent=2))
+print(json.dumps(convert.tool_call_schema.model_json_schema(), indent=2))
 
 # Use a stable model that reliably generates parallel tool calls (Groq Llama-3.3, Gemini, etc.)
 llm = ChatGroq(model="llama-3.3-70b-versatile")
