@@ -43,3 +43,8 @@ streamlit-js-eval
 
 numpy
 scikit-learn
+
+duckduckgo-search 
+ddgs
+langchain_experimental
+langchain-duckduckgo
