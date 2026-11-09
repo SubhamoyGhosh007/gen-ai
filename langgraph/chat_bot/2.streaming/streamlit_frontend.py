@@ -31,17 +31,12 @@ if user_text:
     with st.chat_message('user'):
         st.text(user_text)
         
-    response = chatbot.invoke({
-        'messages': [HumanMessage(content=user_text)]
-    }, config=config)
-    
     with st.chat_message('assistant'):
         ai_message = st.write_stream(
             message_chunk.content for message_chunk, metadata in chatbot.stream(
                 {
                     'messages': [HumanMessage(content=user_text)]},
-                    config= {'configurable': {'thread_id': 'thread-1'}
-                },
+                config=config,
                 stream_mode= 'messages'
             )
         )
