@@ -7,6 +7,7 @@ from langchain_groq import ChatGroq
 from langchain_openrouter import ChatOpenRouter
 
 from typing import TypedDict, Annotated, List
+import sqlite3
 
 from dotenv import load_dotenv
 
@@ -16,7 +17,7 @@ load_dotenv()
 llm = ChatGroq(model= 'openai/gpt-oss-120b')
 # llm = ChatOpenRouter(model= 'cohere/north-mini-code:free')
 
-checkpoint =InMemorySaver()
+checkpointer = InMemorySaver()
 
 ## Defining state schema
 class ChatMessages(TypedDict):
@@ -39,4 +40,5 @@ graph.add_node('chat_node', chat)
 graph.add_edge(START, 'chat_node')
 graph.add_edge('chat_node', END)
 
-chatbot = graph.compile(checkpointer=checkpoint)
+chatbot = graph.compile(checkpointer=checkpointer)
+
