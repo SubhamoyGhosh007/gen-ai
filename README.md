@@ -283,9 +283,60 @@ The vector-store-based examples use Google embeddings and require
 call Gemini chat models, while the Wikipedia example requires network access
 and can be affected by Wikimedia rate limits.
 
+## LangSmith examples
+
+The [`langsmith/`](./langsmith/) directory contains standalone examples for
+LangSmith tracing, RAG pipelines, agents, and LangGraph workflows:
+
+- `1_simple_llm_call.py` and `2_sequential_chain.py` demonstrate traced
+  LangChain calls.
+- `3_rag_v1.py` through `3_rag_v4.py` demonstrate PDF RAG pipelines with
+  local Hugging Face embeddings and FAISS. `3_rag_v4.py` also caches its
+  index under `langsmith/.indices/`.
+- `4_agent.py` demonstrates a ReAct agent with DuckDuckGo search and a
+  Weatherstack tool.
+- `5_langgraph.py` evaluates an essay with parallel LangGraph nodes and
+  structured model output.
+
+These examples use the Groq model `openai/gpt-oss-120b` and the local
+Hugging Face model `sentence-transformers/all-MiniLM-L6-v2`. The examples set
+`HF_HOME` to the repository's `hf_models/` directory, so the embedding model
+is kept locally after its first download.
+
+Install their pinned dependencies from the repository root:
+
+```powershell
+conda activate genai
+python -m pip install -r langsmith/requirements.txt
+```
+
+Run an example from the repository root:
+
+```powershell
+python langsmith/3_rag_v3.py
+python langsmith/3_rag_v4.py
+python langsmith/4_agent.py
+python langsmith/5_langgraph.py
+```
+
+Create a `.env` file in the directory from which you run the scripts, or
+export the required variables in your shell:
+
+```dotenv
+GROQ_API_KEY=your_groq_api_key
+LANGCHAIN_API_KEY=your_langsmith_api_key
+LANGCHAIN_TRACING_V2=true
+WEATHERSTACK_API_KEY=your_weatherstack_api_key
+```
+
+`GROQ_API_KEY` is required by the model examples, `LANGCHAIN_API_KEY` enables
+LangSmith tracing, and `WEATHERSTACK_API_KEY` is required only by
+`4_agent.py`. Never commit API keys or `.env` files.
+
 ## Notes
 
 This is an educational repository rather than a reusable application package.
 The examples intentionally favor readability and experimentation over shared
 abstractions. Dependencies are collected in
-[`langchain/requirements.txt`](./langchain/requirements.txt).
+[`langchain/requirements.txt`](./langchain/requirements.txt) and
+[`langsmith/requirements.txt`](./langsmith/requirements.txt).
