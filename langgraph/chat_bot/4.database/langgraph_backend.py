@@ -17,9 +17,9 @@ llm = ChatGroq(model= 'openai/gpt-oss-120b')
 # llm = ChatOpenRouter(model= 'cohere/north-mini-code:free')
 
 ## Database connection
-conn =sqlite3.connect(database='chatbot.db', check_same_thread=False)
+conn = sqlite3.connect(database='chatbot.db', check_same_thread=False)
 
-checkpointer =SqliteSaver(conn=conn)
+checkpointer = SqliteSaver(conn=conn)
 
 ## Defining state schema
 class ChatMessages(TypedDict):
